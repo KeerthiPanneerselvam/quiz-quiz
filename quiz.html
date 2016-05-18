@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+button {
+  color: #900;
+  font-weight: bold;
+  font-size: 150%;
+  text-transform: uppercase;
+}
+body {
+	color: white;
+    background-image: url("C:/Users/PanneerselvamK/Desktop/assignment/bg1.jpg");
+    background-repeat: no-repeat;
+}
+</style>
+<script>
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, correct = 0;
+var questions = [
+    [ "who is the PM of India?", "A. modi", "B. kalam", "C. vajbhai", "A" ],
+	[ "who is the father of our nation", "A. tagore", "B. gandhiji", "C. patel", "B" ],
+	[ "h2O means?", "A. water", "B. acid", "C. alcohol", "A" ],
+	[ "What is the name of indias national bird?", "A. crow", "B. peacock", "C. penguin", "B" ],
+	["Who is the author of the book ‘Chronicle of a Corpse Bearer’?","A. Cyrus Mistry","B. KR Meera","C. Jaswinder Singh","A"]
+
+];
+
+function shuffle(questions) {
+  var currentIndex = questions.length, temporaryValue, randomIndex ;
+	while (0 !== currentIndex) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = questions[currentIndex];
+    questions[currentIndex] = questions[randomIndex];
+    questions[randomIndex] = temporaryValue;
+  }
+
+  return questions;
+}
+
+function Question(){
+	shuffle(questions);
+
+	test = document.getElementById("test");
+	document.getElementById("d").innerHTML=" ";
+	if(pos >= questions.length){
+		test.innerHTML = "<h2>You got "+correct+" of "+questions.length+" questions correct</h2>";
+		document.getElementById("test_status").innerHTML = "Test Completed";
+		pos = 0;
+		correct = 0;
+		return false;
+	}
+	document.getElementById("test_status").innerHTML = "<h3>Question "+(pos+1)+" of "+questions.length;
+	document.getElementById("d").innerHTML=" ";
+	question = questions[pos][0];
+	chA = questions[pos][1];
+	chB = questions[pos][2];
+	chC = questions[pos][3];
+	test.innerHTML = "<br><h1>"+(pos+1)+". "+question+"</h1>";
+	test.innerHTML += "<h1><input type='radio' name='choices' value='A'> "+chA+"<br>";
+	test.innerHTML += "<h1><input type='radio' name='choices' value='B'> "+chB+"<br>";
+	test.innerHTML += "<h1><input type='radio' name='choices' value='C'> "+chC+"<br><br>";
+	test.innerHTML += "<button onclick='Answer()'>Previous Quiz</button>" + "\t\t\t";
+	test.innerHTML += "<button onclick='Answer()'>Check Answer</button>" + "\t\t\t";
+	test.innerHTML += "<button onclick='Next()'>Next Quiz</button>";
+}
+function Next()
+{
+	//var flag=0;
+	choices = document.getElementsByName("choices");
+	for(var i=0; i<choices.length; i++){
+		if(choices[i].checked){
+			choice = choices[i].checked;
+			var d=i;
+			break;
+		}
+		
+	}
+
+if(choice==true)
+{
+	if(choices[d].value == questions[pos][4]){
+		correct++;
+	}
+		pos++;
+		Question();
+}
+	else
+	{
+			s2=document.getElementById("d");
+			s2.innerHTML="<h3>Answer this question to go to next question!!</h3>";
+	}
+}
+
+
+function Answer(){
+	choices = document.getElementsByName("choices");
+	for(var i=0; i<choices.length; i++){
+		if(choices[i].checked){
+			choice = choices[i].checked;
+			var d=i;
+			break;
+		}
+	}
+if(choice==true)
+{
+	if(choices[d].value == questions[pos][4]){
+		correct++;
+		s=document.getElementById("d");
+		s.innerHTML='<img src=\'C:/Users/PanneerselvamK/Desktop/assignment/tick.png\'>';
+
+	}
+	else
+	{
+		s=document.getElementById("d");
+		s.innerHTML='<img src=\'C:/Users/PanneerselvamK/Desktop/assignment/wrong.png\' height=40 width=40>';
+		s.innerHTML+="<h1>The correct answer is "+questions[pos][4];
+
+	}
+
+	pos++;
+	ss=document.getElementById("d");
+	if(pos < questions.length)
+	{
+	ss.innerHTML += "<br><button onclick='Question()'>Next Question</button>";
+	}
+
+	if(pos == questions.length)
+	{
+	ss.innerHTML += "<br><button onclick='Question()'>Check Score</button>";
+	}
+
+}
+	else
+	{
+			s2=document.getElementById("d");
+			s2.innerHTML="<h3>Answer this question to go to check the answer!!</h3>";
+	}
+	
+}
+window.addEventListener("load", Question, false);
+</script>
+</head>
+<body>
+<center><h1>WELCOME TO QUIZ PROGRAM</h1>
+<h2 id="test_status"></h2>
+
+<div id="test"></div>
+<p id="d"></p>
+</center>
+</body>
+</html>
